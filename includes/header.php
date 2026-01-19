@@ -12,15 +12,28 @@
                 <img src="" alt="">
             </a>
             <ul>
-                <li>
-                    <a href="pages/inscription.php">Inscription</a>
-                </li>
-                <li>
-                    <a href="">Connexion</a>
-                </li>
-                <li>
-                    <a href="">Modification</a>
-                </li>
+                <?php 
+                if(!empty($_SESSION['id'])){
+                    echo '
+                    <li>
+                        <a href="pages/profil.php">Modification</a>
+                    </li>
+                    <li>
+                        <a href="#">Deconnexion</a>
+                    </li>';
+                } else{
+                    echo '
+                    <li>
+                        <a href="pages/inscription.php">Inscription</a>
+                    </li>
+                    <li>
+                        <a href="pages/connexion.php">Connexion</a>
+                    </li>
+                    <li>
+                        <a href="pages/profil.php">Modification</a>
+                    </li>';
+                }
+                ?>
             </ul>
         </nav>
     </header>

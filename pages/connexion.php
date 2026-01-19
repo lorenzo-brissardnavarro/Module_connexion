@@ -3,7 +3,7 @@ include '../includes/config.php';
 include '../includes/header.php';
 
 function login_management($pdo, $login, $password) {
-    $sql = "SELECT * FROM users WHERE login = :login";
+    $sql = "SELECT * FROM utilisateurs WHERE login = :login";
     $query = $pdo->prepare($sql);
     $query->execute([':login' => $login]);
     $user = $query->fetch(PDO::FETCH_ASSOC);
@@ -13,7 +13,10 @@ function login_management($pdo, $login, $password) {
     if (!password_verify($password, $user['password'])) {
         return "Identifiant ou mot de passe incorrect";
     }
-    $_SESSION['id'] = [$user['id']];
+    $_SESSION['id'] = $user['id'];
+    $_SESSION['login'] = $user['login'];
+    $_SESSION['prenom'] = $user['prenom'];
+    $_SESSION['nom'] = $user['nom'];
     return true;
 }
 

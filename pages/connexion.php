@@ -17,6 +17,11 @@ function login_management($pdo, $login, $password) {
     $_SESSION['login'] = $user['login'];
     $_SESSION['prenom'] = $user['prenom'];
     $_SESSION['nom'] = $user['nom'];
+    if ($user['login'] === 'admin') {
+        $_SESSION['admin'] = true;
+    } else {
+        $_SESSION['admin'] = false;
+    }
     return true;
 }
 

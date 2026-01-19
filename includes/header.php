@@ -14,12 +14,18 @@
             <ul>
                 <?php 
                 if(!empty($_SESSION['id'])){
+                    if(!empty($_SESSION['admin']) && $_SESSION['admin'] === true){
+                        echo '
+                        <li>
+                            <a href="pages/admin.php">Admin</a>
+                        </li>';
+                    }
                     echo '
                     <li>
                         <a href="pages/profil.php">Modification</a>
                     </li>
                     <li>
-                        <a href="#">Deconnexion</a>
+                        <a href="pages/deconnexion.php">Deconnexion</a>
                     </li>';
                 } else{
                     echo '
@@ -28,9 +34,6 @@
                     </li>
                     <li>
                         <a href="pages/connexion.php">Connexion</a>
-                    </li>
-                    <li>
-                        <a href="pages/profil.php">Modification</a>
                     </li>';
                 }
                 ?>

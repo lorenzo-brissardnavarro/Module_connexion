@@ -13,7 +13,7 @@
             </a>
             <ul>
                 <li>
-                    <a href="">Inscription</a>
+                    <a href="pages/inscription.php">Inscription</a>
                 </li>
                 <li>
                     <a href="">Connexion</a>

@@ -1,4 +1,5 @@
 <?php
+$pageStyle = 'page.css';
 include '../includes/config.php';
 include '../includes/header.php';
 

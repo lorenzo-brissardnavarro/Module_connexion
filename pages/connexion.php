@@ -1,4 +1,5 @@
 <?php
+$pageStyle = 'connexion.css';
 include '../includes/config.php';
 include '../includes/header.php';
 
@@ -25,34 +26,53 @@ function login_management($pdo, $login, $password) {
     return true;
 }
 
+$error = "";
 
+if (!empty($_POST)) {
+    if (empty($_POST["login"]) || empty($_POST["password"])) {
+        $error = "Veuillez renseigner votre login et votre mot de passe.";
+    } else {
+        $result = connexion($pdo, trim($_POST["login"]), $_POST["password"]);
+        if ($result === true) {
+            header("Location: dashboard.php");
+            exit;
+        } else {
+            $error = $result;
+        }
+    }
+}
 ?>
 
 
-<main>
-    <h1>Page de connexion</h1>
-    <form action="" method="POST">
-        <input type="text" name="login" placeholder="Entrer votre login">
-        <input type="password" name="password" placeholder="Mot de passe">
-        <input type="submit" value="Se connecter">
-    </form>
-    <section>
-        <?php
-        if (!empty($_POST)) {
-            if (empty($_POST["login"]) || empty($_POST["password"])) {
-                echo "<p>Veuillez remplir l'ensemble des champs</p>";
-            } else {
-                $result = login_management($pdo, trim($_POST["login"]), $_POST["password"]);
-                if ($result === true) {
-                    header("Location: profile.php");
-                    exit;
-                } else {
-                    echo "<p>" . $result . "</p>";
-                }
-            }
+<main class="auth-page">
+    <section class="auth-card">
+        <article class="auth-header">
+            <img src="icon-login.svg" alt="" class="auth-icon">
+            <h1 class="title-login">Connexion</h1>
+            <p class="subtitle">Accédez à votre espace personnel</p>
+        </article>
+        <?php 
+        if (!empty($error)){
+            echo '<p class="form-error">' . $error .  '</p>';
         }
         ?>
+        <article class="demo-box">
+            <p><strong>Comptes de démonstration :</strong></p>
+            <p><strong>Admin :</strong> admin / admin123</p>
+            <p><strong>User :</strong> utilisateur / user123</p>
+        </article>
+        <form action="" method="POST">
+            <label for="login">Login</label>
+            <input type="text" name="login" id="login" placeholder="Votre identifiant">
+            <label for="password">Mot de passe</label>
+            <input type="password" name="password" id="password" placeholder="Votre mot de passe">
+            <input type="submit" value="Se connecter">
+        </form>
+        <p class="footer-link">
+            Pas encore de compte ? <a href="inscription.php">S'inscrire</a>
+        </p>
     </section>
 </main>
+
 
 <?php include '../includes/footer.php'; ?>

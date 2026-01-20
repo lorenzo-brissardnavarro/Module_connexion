@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Module de connexion</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
         <nav>
-            <a href="index.php">
-                <img src="" alt="">
+            <a href="page.php" class="nav_a">
+                <img src="../images/logo.png" alt="Logo du site">
+                <span>Origami Space</span>
             </a>
             <ul>
                 <?php 
@@ -17,23 +22,23 @@
                     if(!empty($_SESSION['admin']) && $_SESSION['admin'] === true){
                         echo '
                         <li>
-                            <a href="pages/admin.php">Admin</a>
+                            <a href="admin.php">Admin</a>
                         </li>';
                     }
                     echo '
                     <li>
-                        <a href="pages/profil.php">Modification</a>
+                        <a href="profil.php">Modification</a>
                     </li>
                     <li>
-                        <a href="pages/deconnexion.php">Deconnexion</a>
+                        <a href="deconnexion.php">Deconnexion</a>
                     </li>';
                 } else{
                     echo '
                     <li>
-                        <a href="pages/inscription.php">Inscription</a>
+                        <a href="inscription.php">Inscription</a>
                     </li>
                     <li>
-                        <a href="pages/connexion.php">Connexion</a>
+                        <a href="connexion.php">Connexion</a>
                     </li>';
                 }
                 ?>

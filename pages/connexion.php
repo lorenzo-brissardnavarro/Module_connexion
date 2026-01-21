@@ -46,8 +46,10 @@ if (!empty($_POST)) {
 
 <main class="auth-page">
     <section class="auth-card">
+        <span class="losange losange_1"></span>
+        <span class="losange losange_2"></span>
         <article class="auth-header">
-            <img src="icon-login.svg" alt="" class="auth-icon">
+            <i class=" auth-icon fa-solid fa-arrow-right-to-bracket"></i>
             <h1 class="title-login">Connexion</h1>
             <p class="subtitle">Accédez à votre espace personnel</p>
         </article>

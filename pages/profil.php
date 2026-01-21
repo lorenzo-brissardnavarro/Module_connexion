@@ -55,8 +55,10 @@ if (!empty($_POST)) {
 
 <main class="auth-page">
     <section class="auth-card">
+        <span class="losange losange_1"></span>
+        <span class="losange losange_2"></span>
         <article class="auth-header">
-            <img src="icon-profile.svg" alt="" class="auth-icon">
+            <i class="auth-icon fa-solid fa-user-pen"></i>
             <h1 class="title-profile">Mon Profil</h1>
             <p class="subtitle">Gérez vos informations personnelles</p>
         </article>

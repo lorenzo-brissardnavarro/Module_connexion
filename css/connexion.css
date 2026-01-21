@@ -15,6 +15,32 @@ main{
     border-radius: 18px;
     padding: 32px 28px;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    position: relative;
+}
+
+.losange{
+    display: block;
+    border-radius: 10px;
+    rotate: 45deg;
+    opacity: 70%;
+}
+
+.losange_1{
+    bottom: 0;
+    right: -3%;
+    width: 4em;
+    height: 4em;
+    background: linear-gradient(0deg,rgba(216, 180, 254, 1) 0%, rgba(249, 168, 212, 1) 100%);
+    position: absolute;
+}
+
+.losange_2{
+    top: 0;
+    left: -5%;
+    width: 5em;
+    height: 5em;
+    background: linear-gradient(0deg,rgba(125, 211, 252, 1) 0%, rgba(134, 239, 172, 1) 100%);
+    position: absolute;
 }
 
 
@@ -24,7 +50,10 @@ main{
 }
 
 .auth-icon {
-    width: 48px;
+    background: linear-gradient(90deg, #4ade80, #38bdf8);
+    padding: 0.8em;
+    rotate: 15deg;
+    border-radius: 10px;
     margin-bottom: 10px;
 }
 
@@ -67,7 +96,7 @@ label {
 
 input[type="text"],
 input[type="password"] {
-    padding: 12px;
+    padding: 12px 0 12px 12px;
     border-radius: 10px;
     border: 1px solid #ddd;
     font-size: 14px;

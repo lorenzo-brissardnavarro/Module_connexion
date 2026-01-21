@@ -29,9 +29,31 @@ include '../includes/header.php';
             <span class="losange_2"></span>
         </article>
     </section>
-    <section class="content">
-        <h2>Créations de la communauté</h2>
+    <section class="origami-gallery">
+        <h2>Œuvres en Origami</h2>
+        <p class="gallery_subtitle">
+            Découvrez une sélection de créations en origami, mêlant précision, poésie et géométrie.
+        </p>
+        <div class="gallery_grid">
+            <article class="gallery_card">
+                <img src="../images/origami_colore.jpg" alt="">
+                <h3>Texte 1</h3>
+            </article>
+            <article class="gallery_card">
+                <img src="../images/origami_fleur.jpg" alt="">
+                <h3>Texte 2</h3>
+            </article>
+            <article class="gallery_card">
+                <img src="../images/origami_masque.jpg" alt="">
+                <h3>Texte 3</h3>
+            </article>
+            <article class="gallery_card">
+                <img src="../images/origami_rose.jpg" alt="">
+                <h3>Texte 4</h3>
+            </article>
+        </div>
     </section>
+
     <section class="tags">
         <span class="end_losange"></span>
         <span class="inside_losange"></span>

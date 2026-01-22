@@ -22,6 +22,9 @@
                 <span>Origami Space</span>
             </a>
             <ul>
+                <li>
+                    <a href="page.php">Accueil</a>
+                </li>
                 <?php 
                 if(!empty($_SESSION['id'])){
                     if(!empty($_SESSION['admin']) && $_SESSION['admin'] === true){

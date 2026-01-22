@@ -1,5 +1,6 @@
 <?php
-include 'config.php';
+$pageStyle = 'admin.css';
+include '../includes/config.php';
 include '../includes/header.php';
 
 if (!isset($_SESSION['id'])) {
@@ -35,43 +36,59 @@ if (!empty($_POST['delete_id'])) {
 ?>
 
 <main>
-    <h1>Liste des utilisateurs</h1>
-    <table>
-        <thead>
-            <?php
-            if (!empty($utilisateurs)) {
-                foreach (array_keys($utilisateurs[0]) as $champ) {
-                    echo "<th>" . $champ . "</th>";
-                }
-                echo "<th>Action</th>";
-            }
-            ?>
-        </thead>
-        <tbody>
-        <?php
-        if (!empty($utilisateurs)) {
-            foreach ($utilisateurs as $utilisateur) {
-                echo "<tr>";
-                foreach ($utilisateur as $valeur) {
-                    echo "<td>" . htmlspecialchars($valeur) . "</td>";
-                }
-                echo "<td>";
-                ?>
-                <form method="POST"">
-                    <input type="hidden" name="delete_id" value="<?php $utilisateur['id'] ?>">
-                    <button type="submit">
-                        <i class="fas fa-trash-alt"></i>
-                    </button>
-                </form>
+    <section class="admin-container">
+        <section class="admin-header">
+            <h1>Administration</h1>
+            <p>Gestion des utilisateurs de l'Origami Space</p>
+        </section>
+        <section class="admin-summary">
+            <?php echo count($utilisateurs) ?> utilisateurs enregistrés
+        </section>
+        <section class="table-wrapper">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <?php
+                        if (!empty($utilisateurs)) {
+                            foreach (array_keys($utilisateurs[0]) as $champ) {
+                                echo "<th>" . $champ . "</th>";
+                            }
+                            echo "<th>Actions</th>";
+                        }
+                        ?>
+                    </tr>
+                </thead>
+                <tbody>
                 <?php
-                echo "</td>";
-                echo "</tr>";
-            }
-        }
-        ?>
-        </tbody>
-    </table>
+                if (!empty($utilisateurs)) {
+                    foreach ($utilisateurs as $utilisateur) {
+                        echo '<tr>';
+                        foreach ($utilisateur as $valeur) {
+                            echo '<td>' . htmlspecialchars($valeur) . '</td>';
+                        }
+                        echo '<td>';
+                        if ($utilisateur['login'] === $_SESSION['login']) {
+                            echo '<p>Vous</p>';
+                        } else {
+                            echo '
+                                <form method="POST">
+                                    <input type="hidden" name="delete_id" value="' . htmlspecialchars($utilisateur['id']) . '">
+                                    <button type="submit" class="btn-delete">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>';
+                        }
+                        echo '</td>';
+                        echo '</tr>';
+                    }
+                }
+                ?>
+                </tbody>
+            </table>
+        </section>
+    </section>
 </main>
+
 
 
 <?php include '../includes/footer.php'; ?>

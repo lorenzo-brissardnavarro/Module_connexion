@@ -1,7 +1,7 @@
 <?php
 $pageStyle = 'profil.css';
-include 'config.php';
-include 'includes/header.php';
+include '../includes/config.php';
+include '../includes/header.php';
 include '../includes/verification.php';
 
 if (!isset($_SESSION['id'])) {
@@ -76,7 +76,7 @@ if (!empty($_POST)) {
                 <?php 
                 if(!empty($_SESSION['id'])){
                     if(!empty($_SESSION['admin']) && $_SESSION['admin'] === true){
-                        echo '<span class="status-role">Admin</span>'
+                        echo '<span class="status-role">Admin</span>';
                     }
                 }
                 ?>
@@ -105,4 +105,4 @@ if (!empty($_POST)) {
     </section>
 </main>
 
-<?php include 'includes/footer.php'; ?>
+<?php include '../includes/footer.php'; ?>

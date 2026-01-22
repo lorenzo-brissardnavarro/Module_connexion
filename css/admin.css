@@ -1,0 +1,116 @@
+main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.admin-container {
+    max-width: 1100px;
+    margin: 5em;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+
+.admin-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.admin-icon {
+    width: 60px;
+    height: 60px;
+    margin: auto;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #b26cff, #ff7ac6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    color: #fff;
+}
+
+.admin-header h1 {
+    margin: 1rem 0 0.3rem;
+    color: #8e44ad;
+}
+
+.admin-header p {
+    color: #777;
+}
+
+
+.admin-summary {
+    background: #f5ecff;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    font-weight: 500;
+    margin-bottom: 2rem;
+    border: 1px solid rebeccapurple;
+}
+
+
+.table-wrapper {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table thead {
+    background: #f6e9ff;
+}
+
+.admin-table th,
+.admin-table td {
+    padding: 1rem;
+    text-align: left;
+}
+
+.admin-table th {
+    font-weight: 600;
+    color: #6c3483;
+}
+
+.admin-table tbody tr {
+    border-bottom: 1px solid #eee;
+}
+
+
+.badge {
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+
+.badge.admin {
+    background: linear-gradient(135deg, #b26cff, #ff7ac6);
+    color: white;
+}
+
+.badge.user {
+    background: #eee;
+    color: #555;
+}
+
+
+.btn-delete {
+    border: none;
+    background: #ffe3e3;
+    color: #ff4d4d;
+    padding: 0.6rem;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background: #ffcccc;
+}
+

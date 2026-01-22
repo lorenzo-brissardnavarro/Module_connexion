@@ -12,7 +12,9 @@ include '../includes/header.php';
                 <h1>Bienvenue sur Origami Space</h1>
                 <p>Laissez parler votre créativité et découvrez des réalisations du monde entier.</p>
             </div>
-            <div class="banner_btn">
+            <?php
+            if(!isset($_SESSION['id'])){
+                echo '<div class="banner_btn">
                 <a href="inscription.php">
                     <i class="fa-solid fa-user-plus"></i>
                     <p>Créer un compte</p>
@@ -21,7 +23,9 @@ include '../includes/header.php';
                     <i class="fa-solid fa-arrow-right-to-bracket"></i>
                     <p>Se connecter</p>
                 </a>
-            </div>
+            </div>';
+            } 
+            ?>
         </article>
         <article class="banner_img">
             <img src="../images/banner_img.jpg" alt="Image d'un oiseau origami suspendu au plafond par un fil">

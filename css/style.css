@@ -54,7 +54,7 @@ ul li a{
     box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 }
 
-ul li:first-child a{
+ul li:nth-child(odd) a{
     background: linear-gradient(90deg,rgba(186, 230, 253, 1) 0%, rgba(251, 207, 232, 1) 100%);
 }
 

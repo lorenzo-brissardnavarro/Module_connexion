@@ -3,7 +3,7 @@ $pageStyle = 'connexion.css';
 include '../includes/config.php';
 include '../includes/header.php';
 
-function login_management($pdo, $login, $password) {
+function connexion($pdo, $login, $password) {
     $sql = "SELECT * FROM utilisateurs WHERE login = :login";
     $query = $pdo->prepare($sql);
     $query->execute([':login' => $login]);
@@ -34,7 +34,7 @@ if (!empty($_POST)) {
     } else {
         $result = connexion($pdo, trim($_POST["login"]), $_POST["password"]);
         if ($result === true) {
-            header("Location: dashboard.php");
+            header("Location: profil.php");
             exit;
         } else {
             $error = $result;

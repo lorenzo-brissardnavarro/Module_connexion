@@ -21,12 +21,12 @@ $utilisateurs = $query->fetchAll(PDO::FETCH_ASSOC);
 
 
 if (!empty($_POST['delete_id'])) {
-    if ($delete_id === $_SESSION['id']) {
+    if ($_POST['delete_id'] === $_SESSION['id']) {
         echo "<p>Vous ne pouvez pas supprimer votre propre compte.</p>";
     } else {
         $sql = "DELETE FROM utilisateurs WHERE id = :id";
         $query = $pdo->prepare($sql);
-        $query->execute([':id' => $delete_id]);
+        $query->execute([':id' => $_POST['delete_id']]);
         header("Location: admin.php");
         exit;
     }

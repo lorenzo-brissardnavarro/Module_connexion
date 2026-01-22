@@ -27,6 +27,19 @@ if (!empty($_POST['delete_id'])) {
         $sql = "DELETE FROM utilisateurs WHERE id = :id";
         $query = $pdo->prepare($sql);
         $query->execute([':id' => $_POST['delete_id']]);
+        $sql = "DELETE FROM realisations WHERE user_id = :user_id";
+        $query = $pdo->prepare($sql);
+        $query->execute([':user_id' => $_POST['delete_id']]);
+        $sql = "SELECT image FROM realisations WHERE user_id = :user_id";
+        $query = $pdo->prepare($sql);
+        $query->execute([':user_id' => $_POST['delete_id']]);
+        $images = $query->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($images as $img) {
+            $filePath = '../images/' . $img['image'];
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
         header("Location: admin.php");
         exit;
     }
@@ -42,7 +55,7 @@ if (!empty($_POST['delete_id'])) {
             <p>Gestion des utilisateurs de l'Origami Space</p>
         </section>
         <section class="admin-summary">
-            <?php echo count($utilisateurs) ?> utilisateurs enregistrés
+            <?php echo count($utilisateurs) ?> utilisateur(s) enregistré(s)
         </section>
         <section class="table-wrapper">
             <table class="admin-table">

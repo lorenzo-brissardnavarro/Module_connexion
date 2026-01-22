@@ -3,6 +3,16 @@ $pageStyle = 'page.css';
 include '../includes/config.php';
 include '../includes/header.php';
 
+
+function recuperation($pdo){
+    $sql = "SELECT image, titre FROM realisations";
+    $query = $pdo->prepare($sql);
+    $query->execute();
+    $images = $query->fetchAll(PDO::FETCH_ASSOC);
+    return $images;
+}
+
+
 ?>
 
 <main>
@@ -24,7 +34,13 @@ include '../includes/header.php';
                     <p>Se connecter</p>
                 </a>
             </div>';
-            } 
+            } else{
+                echo '<div class="banner_btn">
+                <a href="ajout.php">
+                    <i class="fa-solid fa-images"></i>
+                    <p>Ajouter une création</p>
+                </a>';
+            }
             ?>
         </article>
         <article class="banner_img">
@@ -39,22 +55,15 @@ include '../includes/header.php';
             Découvrez une sélection de créations en origami, mêlant précision, poésie et géométrie.
         </p>
         <div class="gallery_grid">
-            <article class="gallery_card">
-                <img src="../images/origami_colore.jpg" alt="">
-                <h3>Texte 1</h3>
-            </article>
-            <article class="gallery_card">
-                <img src="../images/origami_fleur.jpg" alt="">
-                <h3>Texte 2</h3>
-            </article>
-            <article class="gallery_card">
-                <img src="../images/origami_masque.jpg" alt="">
-                <h3>Texte 3</h3>
-            </article>
-            <article class="gallery_card">
-                <img src="../images/origami_rose.jpg" alt="">
-                <h3>Texte 4</h3>
-            </article>
+            <?php 
+            foreach (recuperation($pdo) as $realisations) {
+                echo '
+                <article class="gallery_card">
+                    <img src="../images/' . $realisations['image'] . '" alt="' . $realisations['titre'] . '">
+                    <h3>' . $realisations['titre'] . '</h3>
+                </article>';
+            }
+            ?>
         </div>
     </section>
 

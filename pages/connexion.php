@@ -49,7 +49,7 @@ if (!empty($_POST)) {
         <span class="losange losange_1"></span>
         <span class="losange losange_2"></span>
         <article class="auth-header">
-            <i class=" auth-icon fa-solid fa-arrow-right-to-bracket"></i>
+            <i class="auth-icon fa-solid fa-arrow-right-to-bracket"></i>
             <h1 class="title-login">Connexion</h1>
             <p class="subtitle">Accédez à votre espace personnel</p>
         </article>

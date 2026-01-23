@@ -5,11 +5,33 @@ include '../includes/header.php';
 
 
 function recuperation($pdo){
-    $sql = "SELECT image, titre FROM realisations";
+    $sql = "SELECT id, image, titre, user_id FROM realisations";
     $query = $pdo->prepare($sql);
     $query->execute();
     $images = $query->fetchAll(PDO::FETCH_ASSOC);
     return $images;
+}
+
+if (!empty($_POST['delete_id'])) {
+    if ($_POST['delete_id'] === $_SESSION['id']) {
+        echo "<p>Vous ne pouvez pas supprimer votre propre compte.</p>";
+    } else {
+        $sql = "SELECT image FROM realisations WHERE id = :id";
+        $query = $pdo->prepare($sql);
+        $query->execute([':id' => $_POST['delete_id']]);
+        $images = $query->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($images as $img) {
+            $filePath = '../images/' . $img['image'];
+            if (file_exists($filePath)) {
+                unlink($filePath);
+            }
+        }
+        $sql = "DELETE FROM realisations WHERE id = :id";
+        $query = $pdo->prepare($sql);
+        $query->execute([':id' => $_POST['delete_id']]);
+        header("Location: page.php");
+        exit;
+    }
 }
 
 
@@ -60,8 +82,17 @@ function recuperation($pdo){
                 echo '
                 <article class="gallery_card">
                     <img src="../images/' . $realisations['image'] . '" alt="' . $realisations['titre'] . '">
-                    <h3>' . $realisations['titre'] . '</h3>
-                </article>';
+                    <h3>' . $realisations['titre'] . '</h3>';
+                    if(isset($_SESSION['id']) && $_SESSION['id'] === $realisations['user_id']){
+                        echo '
+                            <form method="POST" class="delete-form">
+                                <input type="hidden" name="delete_id" value="' . htmlspecialchars($realisations['id']) . '">
+                                <button type="submit" class="btn-delete">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </form>';
+                    }
+                echo '</article>';
             }
             ?>
         </div>

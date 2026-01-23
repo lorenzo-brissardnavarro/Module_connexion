@@ -27,9 +27,6 @@ if (!empty($_POST['delete_id'])) {
         $sql = "DELETE FROM utilisateurs WHERE id = :id";
         $query = $pdo->prepare($sql);
         $query->execute([':id' => $_POST['delete_id']]);
-        $sql = "DELETE FROM realisations WHERE user_id = :user_id";
-        $query = $pdo->prepare($sql);
-        $query->execute([':user_id' => $_POST['delete_id']]);
         $sql = "SELECT image FROM realisations WHERE user_id = :user_id";
         $query = $pdo->prepare($sql);
         $query->execute([':user_id' => $_POST['delete_id']]);
@@ -40,6 +37,9 @@ if (!empty($_POST['delete_id'])) {
                 unlink($filePath);
             }
         }
+        $sql = "DELETE FROM realisations WHERE user_id = :user_id";
+        $query = $pdo->prepare($sql);
+        $query->execute([':user_id' => $_POST['delete_id']]);
         header("Location: admin.php");
         exit;
     }

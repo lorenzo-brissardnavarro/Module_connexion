@@ -154,7 +154,6 @@ h1{
 }
 
 .gallery_card h3 {
-    padding: 1em;
     font-size: 1.1rem;
     font-weight: 700;
     color: darkslategray;
@@ -185,6 +184,25 @@ h1{
     width: 8em;
     height: 8em;
     background: linear-gradient(0deg,rgba(216, 180, 254, 1) 0%, rgba(249, 168, 212, 1) 100%);
+}
+
+.delete-form{
+    text-align: end;
+    margin-right: 1em;
+    margin-bottom: 1em;
+}
+
+.btn-delete {
+    border: none;
+    background: #ffe3e3;
+    color: #ff4d4d;
+    padding: 0.6rem;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.btn-delete:hover {
+    background: #ffcccc;
 }
 
 

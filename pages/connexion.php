@@ -3,6 +3,13 @@ $pageStyle = 'connexion.css';
 include '../includes/config.php';
 include '../includes/header.php';
 
+function champs_vides_connexion($post) {
+    if (empty($post["login"]) || empty($post["password"])) {
+        return true;
+    }
+    return false;
+}
+
 function connexion($pdo, $login, $password) {
     $sql = "SELECT * FROM utilisateurs WHERE login = :login";
     $query = $pdo->prepare($sql);
@@ -26,19 +33,23 @@ function connexion($pdo, $login, $password) {
     return true;
 }
 
+function traiter_connexion($pdo, $post) {
+    if (champs_vides_connexion($post)) {
+        return "Veuillez renseigner votre login et votre mot de passe.";
+    }
+    return connexion($pdo, trim($post["login"]), $post["password"]);
+}
+
+
 $error = "";
 
 if (!empty($_POST)) {
-    if (empty($_POST["login"]) || empty($_POST["password"])) {
-        $error = "Veuillez renseigner votre login et votre mot de passe.";
+    $result = traiter_connexion($pdo, $_POST);
+    if ($result === true) {
+        header("Location: profil.php");
+        exit;
     } else {
-        $result = connexion($pdo, trim($_POST["login"]), $_POST["password"]);
-        if ($result === true) {
-            header("Location: profil.php");
-            exit;
-        } else {
-            $error = $result;
-        }
+        $error = $result;
     }
 }
 ?>

@@ -4,6 +4,13 @@ include '../includes/config.php';
 include '../includes/header.php';
 include '../includes/verification.php';
 
+function champs_vides($post) {
+    if (empty($post["login"]) || empty($post["prenom"]) || empty($post["nom"]) || empty($post["password"]) || empty($post["confirm_password"])) {
+        return true;
+    }
+    return false;
+}
+
 function enregistrement($pdo, $login, $prenom, $nom, $password) {
     $sql = "SELECT id FROM utilisateurs WHERE login = :login";
     $query = $pdo->prepare($sql);
@@ -13,30 +20,40 @@ function enregistrement($pdo, $login, $prenom, $nom, $password) {
         return "Ce nom d'utilisateur est déjà utilisé";
     }
     $hash = password_hash($password, PASSWORD_DEFAULT);
-    $sql = "INSERT INTO utilisateurs (login, prenom, nom, password) VALUES (:login, :prenom, :nom, :password)";
+    $sql = "INSERT INTO utilisateurs (login, prenom, nom, password)
+            VALUES (:login, :prenom, :nom, :password)";
     $query = $pdo->prepare($sql);
     $query->execute([':login' => $login, ':prenom' => $prenom, ':nom' => $nom, ':password' => $hash]);
     return true;
 }
 
+function inscription($pdo, $post) {
+    if (champs_vides($post)) {
+        return "Veuillez remplir l'ensemble des champs.";
+    }
+    $result = verification_champs(trim($post["login"]), trim($post["prenom"]), trim($post["nom"]), $post["password"], $post["confirm_password"]);
+    if ($result === true) {
+        $result = enregistrement($pdo, trim($post["login"]), trim($post["prenom"]), trim($post["nom"]), $post["password"]);
+        if ($result === true) {
+            return true;
+        } else {
+            return $result;
+        }
+    } else {
+        return $result;
+    }
+}
+
+
 $error = "";
 
 if (!empty($_POST)) {
-    if (empty($_POST["login"]) || empty($_POST["prenom"]) || empty($_POST["nom"]) || empty($_POST["password"]) || empty($_POST["confirm_password"])) {
-        $error = "Veuillez remplir l'ensemble des champs.";
+    $result = inscription($pdo, $_POST);
+    if ($result === true) {
+        header("Location: connexion.php");
+        exit;
     } else {
-        $result = verification_champs(trim($_POST["login"]), trim($_POST["prenom"]), trim($_POST["nom"]), $_POST["password"], $_POST["confirm_password"]);
-        if ($result === true) {
-            $result = enregistrement($pdo, trim($_POST["login"]), trim($_POST["prenom"]), trim($_POST["nom"]), $_POST["password"]);
-            if ($result === true) {
-                header("Location: connexion.php");
-                exit;
-            } else {
-                $error = $result;
-            }
-        } else {
-            $error = $result;
-        }
+        $error = $result;
     }
 }
 

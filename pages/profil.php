@@ -9,44 +9,50 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
+function champs_vides_profil($post) {
+    if (empty($post["login"]) || empty($post["prenom"]) || empty($post["nom"]) || empty($post["password"]) || empty($post["confirm_password"])) {
+        return true;
+    }
+    return false;
+}
+
 function update_profile($pdo, $id, $login, $prenom, $nom, $password) {
     $sql = "SELECT id FROM utilisateurs WHERE login = :login AND id != :id";
     $query = $pdo->prepare($sql);
-    $query->execute([':login' => $login, ':id' => $id]);
+    $query->execute([':login' => $login, ':id'    => $id]);
     $result = $query->fetch(PDO::FETCH_ASSOC);
     if ($result !== false) {
         return "Ce nom d'utilisateur est déjà utilisé";
     }
     $sql = "UPDATE utilisateurs SET login = :login, prenom = :prenom, nom = :nom, password = :password WHERE id = :id";
     $query = $pdo->prepare($sql);
-    $query->execute([':login' => $login, ':prenom' => $prenom, ':nom' => $nom, ':password' => password_hash($password, PASSWORD_DEFAULT), ':id' => $id]);
-    $_SESSION['login'] = $login;
+    $query->execute([':login'    => $login,':prenom' => $prenom,':nom' => $nom,':password' => password_hash($password, PASSWORD_DEFAULT),':id' => $id]);
+    $_SESSION['login']  = $login;
     $_SESSION['prenom'] = $prenom;
-    $_SESSION['nom'] = $nom;
+    $_SESSION['nom']    = $nom;
     return true;
+}
+
+function traiter_modification_profil($pdo, $post) {
+    if (champs_vides_profil($post)) {
+        return "Veuillez remplir l'ensemble des champs.";
+    }
+    $result = verification_champs(trim($post['login']), trim($post['prenom']), trim($post['nom']), $post['password'], $post['confirm_password']);
+    if ($result === true) {
+        return update_profile($pdo, $_SESSION['id'], trim($post['login']), trim($post['prenom']), trim($post['nom']), $post['password']);
+    }
+    return $result;
 }
 
 $error = "";
 
 if (!empty($_POST)) {
-    if (empty($_POST["login"]) || empty($_POST["prenom"]) || empty($_POST["nom"]) || empty($_POST["password"]) || empty($_POST["confirm_password"])) {
-        $error = "Veuillez remplir l'ensemble des champs.";
+    $result = traiter_modification_profil($pdo, $_POST);
+    if ($result === true) {
+        header("Location: profil.php");
+        exit;
     } else {
-        $result = verification_champs(trim($_POST['login']), trim($_POST['prenom']), trim($_POST['nom']), $_POST['password'], $_POST['confirm_password']);
-        if ($result === true) {
-            $result = update_profile($pdo, $_SESSION['id'], trim($_POST['login']), trim($_POST['prenom']), trim($_POST['nom']), $_POST['password']);
-            if ($result === true) {
-                $_SESSION['login']  = trim($_POST['login']);
-                $_SESSION['prenom'] = trim($_POST['prenom']);
-                $_SESSION['nom']    = trim($_POST['nom']);
-                header("Location: profil.php");
-                exit;
-            } else {
-                $error = $result;
-            }
-        } else {
-            $error = $result;
-        }
+        $error = $result;
     }
 }
 

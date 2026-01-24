@@ -14,36 +14,52 @@ if (!isset($_SESSION['admin']) || $_SESSION['admin'] !== true) {
 }
 
 
-$sql = "SELECT * FROM utilisateurs";
-$query = $pdo->prepare($sql);
-$query->execute();
-$utilisateurs = $query->fetchAll(PDO::FETCH_ASSOC);
+function get_utilisateurs($pdo) {
+    $sql = "SELECT * FROM utilisateurs";
+    $query = $pdo->prepare($sql);
+    $query->execute();
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
 
+function supprimer_utilisateur($pdo, $user_id) {
+    if ($user_id == $_SESSION['id']) {
+        return "Vous ne pouvez pas supprimer votre propre compte.";
+    }
+    $sql = "SELECT image FROM realisations WHERE user_id = :user_id";
+    $query = $pdo->prepare($sql);
+    $query->execute([':user_id' => $user_id]);
+    $images = $query->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($images as $img) {
+        $filePath = '../images/' . $img['image'];
+        if (file_exists($filePath)) {
+            unlink($filePath);
+        }
+    }
+    $sql = "DELETE FROM realisations WHERE user_id = :user_id";
+    $query = $pdo->prepare($sql);
+    $query->execute([':user_id' => $user_id]);
+
+    $sql = "DELETE FROM utilisateurs WHERE id = :id";
+    $query = $pdo->prepare($sql);
+    $query->execute([':id' => $user_id]);
+    return true;
+}
+
+
+$error = "";
 
 if (!empty($_POST['delete_id'])) {
-    if ($_POST['delete_id'] === $_SESSION['id']) {
-        echo "<p>Vous ne pouvez pas supprimer votre propre compte.</p>";
-    } else {
-        $sql = "DELETE FROM utilisateurs WHERE id = :id";
-        $query = $pdo->prepare($sql);
-        $query->execute([':id' => $_POST['delete_id']]);
-        $sql = "SELECT image FROM realisations WHERE user_id = :user_id";
-        $query = $pdo->prepare($sql);
-        $query->execute([':user_id' => $_POST['delete_id']]);
-        $images = $query->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($images as $img) {
-            $filePath = '../images/' . $img['image'];
-            if (file_exists($filePath)) {
-                unlink($filePath);
-            }
-        }
-        $sql = "DELETE FROM realisations WHERE user_id = :user_id";
-        $query = $pdo->prepare($sql);
-        $query->execute([':user_id' => $_POST['delete_id']]);
+    $result = supprimer_utilisateur($pdo, $_POST['delete_id']);
+    if ($result === true) {
         header("Location: admin.php");
         exit;
+    } else {
+        $error = $result;
     }
 }
+
+$utilisateurs = get_utilisateurs($pdo);
 
 
 ?>

@@ -4,35 +4,46 @@ include '../includes/config.php';
 include '../includes/header.php';
 
 
-function recuperation($pdo){
+function recuperation($pdo) {
     $sql = "SELECT id, image, titre, user_id FROM realisations";
     $query = $pdo->prepare($sql);
     $query->execute();
-    $images = $query->fetchAll(PDO::FETCH_ASSOC);
-    return $images;
+    return $query->fetchAll(PDO::FETCH_ASSOC);
 }
 
-if (!empty($_POST['delete_id'])) {
-    if ($_POST['delete_id'] === $_SESSION['id']) {
-        echo "<p>Vous ne pouvez pas supprimer votre propre compte.</p>";
-    } else {
-        $sql = "SELECT image FROM realisations WHERE id = :id";
-        $query = $pdo->prepare($sql);
-        $query->execute([':id' => $_POST['delete_id']]);
-        $images = $query->fetchAll(PDO::FETCH_ASSOC);
-        foreach ($images as $img) {
-            $filePath = '../images/' . $img['image'];
-            if (file_exists($filePath)) {
-                unlink($filePath);
-            }
+function recuperer_images_a_supprimer($pdo, $id) {
+    $sql = "SELECT image FROM realisations WHERE id = :id";
+    $query = $pdo->prepare($sql);
+    $query->execute([':id' => $id]);
+    return $query->fetchAll(PDO::FETCH_ASSOC);
+}
+
+function supprimer_fichiers_images($images) {
+    foreach ($images as $img) {
+        $filePath = '../images/' . $img['image'];
+        if (file_exists($filePath)) {
+            unlink($filePath);
         }
-        $sql = "DELETE FROM realisations WHERE id = :id";
-        $query = $pdo->prepare($sql);
-        $query->execute([':id' => $_POST['delete_id']]);
+    }
+}
+
+function supprimer_realisation($pdo, $id) {
+    $sql = "DELETE FROM realisations WHERE id = :id";
+    $query = $pdo->prepare($sql);
+    $query->execute([':id' => $id]);
+}
+
+function traiter_suppression($pdo) {
+    if (!empty($_POST['delete_id'])) {
+        $images = recuperer_images_a_supprimer($pdo, $_POST['delete_id']);
+        supprimer_fichiers_images($images);
+        supprimer_realisation($pdo, $_POST['delete_id']);
         header("Location: page.php");
         exit;
     }
 }
+
+traiter_suppression($pdo);
 
 
 ?>
